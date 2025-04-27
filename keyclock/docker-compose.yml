@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.1
+    container_name: keycloak
+    ports:
+      - "8080:8080"
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: adminpass
+
+      KC_DB: mysql
+      KC_DB_URL: jdbc:mysql://host.docker.internal:3306/keycloak
+      KC_DB_USERNAME: root
+      KC_DB_PASSWORD: password
+
+      KC_THEME: my-login-theme
+      KC_SPI_THEME_DEFAULT_THEME: my-login-theme
+      KC_SPI_THEME_CACHE_THEMES: false
+      KC_SPI_THEME_CACHE_TEMPLATES: false
+
+    volumes:
+      - ./my-login-theme:/opt/keycloak/themes/my-login-theme
+
+    command: [ "start-dev" ]

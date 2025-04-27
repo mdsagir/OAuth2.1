@@ -1,0 +1,95 @@
+<html>
+  <head>
+    <!-- Link to external CSS file -->
+
+
+
+<style>
+      /* General Reset */
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+      }
+
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #f4f7fa;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+      }
+
+      .login-container {
+          background-color: #ffffff;
+          padding: 2rem;
+          border-radius: 8px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          width: 100%;
+          max-width: 400px;
+          text-align: center;
+      }
+
+      .login-container h1 {
+          margin-bottom: 1.5rem;
+          color: #333;
+          font-size: 24px;
+      }
+
+      .login-container input {
+          width: 100%;
+          padding: 12px;
+          margin-bottom: 1rem;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          font-size: 16px;
+          background-color: #f9f9f9;
+      }
+
+      .login-container input:focus {
+          border-color: #007bff;
+          outline: none;
+          background-color: #ffffff;
+      }
+
+      .login-container button {
+          width: 100%;
+          padding: 12px;
+          background-color: #007bff;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          font-size: 16px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+      }
+
+      .login-container button:hover {
+          background-color: #0056b3;
+      }
+
+      .login-container .forgot-password {
+          margin-top: 1rem;
+          font-size: 14px;
+          color: #007bff;
+          text-decoration: none;
+      }
+
+      .login-container .forgot-password:hover {
+          text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <h1>Custom Login</h1>
+      <form method="post" action="${url.loginAction}">
+        <input name="username" placeholder="Username" required><br/>
+        <input name="password" type="password" placeholder="Password" required><br/>
+        <button type="submit">Login</button>
+      </form>
+      <a href="#" class="forgot-password">Forgot your password?</a>
+    </div>
+  </body>
+</html>
