@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+# Logs
+logs
+*.log
+
+# Node
+node_modules/
+
+# Java / Spring Boot
+target/
+*.class
+build/
+# IDEs
+.idea/
+.vscode/
+*.iml
+
