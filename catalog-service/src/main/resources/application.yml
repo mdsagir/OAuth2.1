@@ -1,6 +1,15 @@
+server:
+  port: 9001
+  tomcat:
+    connection-timeout: 2s
+    max-keep-alive-requests: 15
+    threads:
+      max: 50
+      min-spare: 5
+
 spring:
   application:
-    name: order-service
+    name: catalog-service
   lifecycle:
     timeout-per-shutdown-phase: 15s
   security:
@@ -8,18 +17,11 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8080/realms/demo
-server:
-  port: 9002
-  shutdown: graceful
-  netty:
-    connection-timeout: 2s
-    idle-timeout: 15s
+
 logging:
   pattern:
     level: "%5p [${spring.application.name}]"
   level:
     root: info
-    org.orders: debug
-alpha:
-  catalog-service-uri: "http://localhost:9001"
+    org.catalog: debug
 

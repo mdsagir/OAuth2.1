@@ -1,28 +1,56 @@
+server:
+  port: 9000
+  netty:
+    connection-timeout: 2s
+    idle-timeout: 15s
+  shutdown: graceful
+logging:
+  pattern:
+    level: "%5p [${spring.application.name}]"
+  level:
+    root: info
+    org.example: debug
+    io.github.resilience4j: debug
+    org.springframework.security: info
 spring:
   application:
-    name: gateway-service
-  session:
-    store-type: redis
-    timeout: 10m
-    redis:
-      namespace: spring:cloud
-  data:
-    redis:
-      url: redis://localhost:6379
-      timeout: 5s
-      username:
-      password:
+    name: edge-service
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
+
   cloud:
     gateway:
       httpclient:
         connect-timeout: 2000
         response-timeout: 5s
         pool:
-          type: ELASTIC
+          type: elastic
           max-idle-time: 15s
           max-life-time: 60s
+      routes:
+        - id: catalog-route
+          uri: ${CATALOG_SERVICE_URL:http://localhost:9001}/books
+          predicates:
+            - Path=/books/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: catalogCircuitBreaker
+                fallbackUri: forward:/catalog-fallback
+        - id: order-route
+          uri: ${ORDER_SERVICE_URL:http://localhost:9002}/orders
+          predicates:
+            - Path=/orders/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: orderCircuitBreaker
+                fallbackUri: forward:/order-fallback
+        - id: spa-route
+          uri: http://localhost:4200
+          predicates:
+            - Path=/,/*.css,/*.js,/favicon.ico
       default-filters:
-        - name: SaveSession
         - name: Retry
           args:
             retries: 3
@@ -38,27 +66,33 @@ spring:
           args:
             redis-rate-limiter:
               replenishRate: 10
-              burstCapacity: 200
+              burstCapacity: 20
               requestedTokens: 1
-      routes:
-        - id: user-service
-          uri: http://localhost:8081/
-          predicates:
-            - Path=/user/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: userCircuitBreaker
-                fallbackUri: forward:/service-fallback
-        - id: order-service
-          uri: http://localhost:8082/
-          predicates:
-            - Path=/order/**
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: orderCircuitBreaker
-                fallbackUri: forward:/service-fallback
+        - name: SaveSession
+        - name: TokenRelay
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: demo-client
+            client-secret: 9yF32SliT8OpmhBqLM1yIwTJ8qeC0PMZ
+            scope:
+              - openid
+              - roles
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/realms/demo
+  data:
+    redis:
+      connect-timeout: 2s
+      host: localhost
+      port: 6379
+      timeout: 1s
+  session:
+    timeout: 10m
+    redis:
+      namespace: alpha:edge
 resilience4j:
   circuitbreaker:
     configs:
@@ -72,6 +106,8 @@ resilience4j:
       default:
         timeoutDuration: 5s
 
-logging:
-  level:
-    io.github.resilience4j: DEBUG
+
+
+
+
+
