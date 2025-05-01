@@ -11,6 +11,15 @@ import reactor.util.retry.Retry;
 
 import java.time.Duration;
 
+/**
+ * A client class that facilitates communication with an external book service
+ * through REST API calls. It uses a reactive programming model with {@link WebClient}
+ * to perform non-blocking HTTP requests for retrieving book details.
+ * Primarily designed to interact with book-related endpoints such as fetching
+ * books by their ISBN.
+ * <p>
+ * This class is a Spring-managed component, enabling dependency injection where required.
+ */
 @Component
 public class BookClient {
     /**
@@ -26,6 +35,15 @@ public class BookClient {
         this.webClient = webClient;
     }
 
+    /**
+     * Retrieves a book by its ISBN from an external service.
+     * The method performs a non-blocking HTTP GET request using a WebClient,
+     * retrieves the book details as a Mono result, and handles potential errors.
+     * If the book is not found or an error occurs, an empty Mono is returned.
+     *
+     * @param isbn the ISBN of the book to be retrieved
+     * @return a {@link Mono} emitting the {@link Book} retrieved or empty if not found
+     */
     public Mono<Book> getBookByIsbn(String isbn) {
         log.debug("Retrieving book with ISBN: {}", isbn);
         return webClient

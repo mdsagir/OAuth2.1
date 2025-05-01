@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
 /**
- * Controller that handles HTTP requests related to book management in the catalog.
- * Provides endpoints to view, add, edit, and delete books.
+ * The {@code BookController} class is a REST controller responsible for managing
+ * operations related to books in the catalog. It provides endpoints to retrieve,
+ * add, update, and delete books.
+ * <p>
+ * The controller interacts with the {@code BookService} to perform these operations
+ * and logs actions for debugging purposes.
  */
 @RestController
 @RequestMapping("books")

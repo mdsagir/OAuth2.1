@@ -13,6 +13,12 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Service class responsible for handling operations related to orders.
+ * This class interacts with an external book service to fetch book details,
+ * enables submission of book orders based on availability, and maintains
+ * an in-memory store of the created orders.
+ */
 @Service
 public class OrderService {
     private static final Logger log = LoggerFactory.getLogger(OrderService.class);

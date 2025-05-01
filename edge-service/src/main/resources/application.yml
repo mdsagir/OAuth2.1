@@ -1,12 +1,17 @@
 server:
   port: 9000
   netty:
+    # Maximum time to wait for client to establish connection
     connection-timeout: 2s
+    # Maximum time a connection can be idle before being closed
     idle-timeout: 15s
+  # Enables graceful shutdown, waiting for active requests to complete
   shutdown: graceful
+# Logging configuration section
 logging:
   pattern:
     level: "%5p [${spring.application.name}]"
+  # Log levels for different packages
   level:
     root: info
     org.example: debug
@@ -16,16 +21,22 @@ spring:
   application:
     name: edge-service
   lifecycle:
+    # Maximum time allowed for each phase during graceful shutdown
     timeout-per-shutdown-phase: 15s
 
   cloud:
     gateway:
       httpclient:
+        # Maximum time to establish connection with downstream services
         connect-timeout: 2000
+        # Maximum time to wait for response from downstream services
         response-timeout: 5s
         pool:
+          # Connection pool type (fixed or elastic)
           type: elastic
+          # Maximum time a connection can remain idle in the pool
           max-idle-time: 15s
+          # Maximum lifetime of a connection in the pool
           max-life-time: 60s
       routes:
         - id: catalog-route
@@ -97,13 +108,19 @@ resilience4j:
   circuitbreaker:
     configs:
       default:
+        # Number of calls considered for failure rate calculation
         slidingWindowSize: 20
+        # Number of permitted calls when circuit is half-open
         permittedNumberOfCallsInHalfOpenState: 5
+        # Percentage of failures required to open circuit
         failureRateThreshold: 50
+        # Time circuit stays open before switching to half-open
         waitDurationInOpenState: 15000
+  # Configuration for timeout handling
   timelimiter:
     configs:
       default:
+        # Maximum duration allowed for downstream service calls
         timeoutDuration: 5s
 
 

@@ -15,6 +15,21 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 
+/**
+ * OrderController is a REST controller responsible for handling HTTP requests related to
+ * order operations, including retrieving all orders and submitting new orders.
+ * This class delegates the business logic to the {@link OrderService}.
+ * <p>
+ * The controller provides endpoints for:
+ * - Retrieving a list of all existing orders.
+ * - Submitting a new order based on a provided {@link OrderRequest}.
+ * <p>
+ * Logging is employee to track and debug the operations performed, ensuring
+ * better traceability and visibility into the controller's behavior.
+ * <p>
+ * Mappings:
+ * - `/orders`: Base path for all endpoints in this controller.
+ */
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -31,7 +46,7 @@ public class OrderController {
      * This instance is responsible for processing requests related to orders, including retrieving
      * all orders and submitting new orders. It communicates with other services such as BookClient
      * to fetch necessary data and processes business logic associated with order acceptance or rejection.
-     *
+     * <p>
      * Used within {@link OrderController} to abstract and organize business logic related
      * to handling orders.
      */

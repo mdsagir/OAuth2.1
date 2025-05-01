@@ -9,7 +9,10 @@ import org.slf4j.Logger;
 import java.util.Map;
 
 /**
- * Service class for managing book-related operations in the catalog.
+ * Service class for managing books in a catalog. This class provides methods to
+ * perform operations such as retrieving, adding, updating, and removing books
+ * from the catalog. It also handles scenarios where a book is not found or
+ * already exists.
  */
 @Service
 public class BookService {

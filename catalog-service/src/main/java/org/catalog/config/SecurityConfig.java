@@ -13,6 +13,16 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration(proxyBeanMethods = false)
 public class SecurityConfig {
 
+	/**
+	 * Configures the security filter chain for the application.
+	 *
+	 * @param http the {@link HttpSecurity} instance used to configure HTTP security
+	 *             for the application
+	 * @return a configured instance of {@link SecurityFilterChain} that includes
+	 *         authorization rules, OAuth2 resource server configuration, stateless
+	 *         session management, and CSRF protection disabled
+	 * @throws Exception if an error occurs while configuring the security filter chain
+	 */
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http
@@ -28,6 +38,14 @@ public class SecurityConfig {
 				.build();
 	}
 
+	/**
+	 * Provides a {@link JwtAuthenticationConverter} bean to convert JWT claims into
+	 * Spring Security granted authorities. Configures the {@link JwtGrantedAuthoritiesConverter}
+	 * to use a specific authority prefix and a custom claim name for role mapping.
+	 *
+	 * @return a configured {@link JwtAuthenticationConverter} that maps roles from
+	 * the "roles" claim with the "ROLE_" prefix
+	 */
 	@Bean
 	public JwtAuthenticationConverter jwtAuthenticationConverter() {
 		var jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
